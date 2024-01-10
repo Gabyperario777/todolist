@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: pink;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        .todo-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .todo-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .todo-item:hover {
+            background-color: #f0f0f0;
+        }
+        .todo-item.completed {
+            text-decoration: line-through;
+            opacity: 0.5;
+        }
+        .delete-button {
+            cursor: pointer;
+            color: red;
+            font-weight: bold;
+            font-size: 18px;
+            border: none;
+            background-color: transparent;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <center><h1>To Do List</h1></center>
+        <form id="todo-form">
+            <input type="text" id="todo-input" placeholder="Digite sua tarefa...">
+            <button type="submit">Adicionar</button>
+        </form>
+        <ul class="todo-list" id="todo-list"></ul>
+    </div>
+
+    <script>
+        const form = document.getElementById('todo-form');
+        const input = document.getElementById('todo-input');
+        const list = document.getElementById('todo-list');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const task = input.value.trim();
+            if (task) {
+                const li = document.createElement('li');
+                li.classList.add('todo-item');
+                li.innerHTML = `
+                    <span>${task}</span>
+                    <input type="checkbox" class="completed-checkbox">
+                    <button class="delete-button">&times;</button>
+                `;
+                list.appendChild(li);
+                input.value = '';
+            }
+        });
+
+        list.addEventListener('click', function(e) {
+            if (e.target.classList.contains('delete-button')) {
+                const li = e.target.parentElement;
+                list.removeChild(li);
+            } else if (e.target.classList.contains('completed-checkbox')) {
+                const li = e.target.parentElement;
+                li.classList.toggle('completed');
+            }
+        });
+    </script>
+</body>
+</html>
+
